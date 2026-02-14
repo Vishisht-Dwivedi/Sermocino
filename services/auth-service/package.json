@@ -5,9 +5,9 @@
   "description": "Authorization and Authentication Handler for Sermocino",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/index.js",
-    "dev": "node --watch src/index.js"
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
   },
   "keywords": [],
   "author": "Vishisht Dwivedi",
@@ -16,5 +16,10 @@
   "dependencies": {
     "dotenv": "^17.3.1",
     "fastify": "^5.7.4"
+  },
+  "devDependencies": {
+    "@types/node": "^25.2.3",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
   }
 }
