@@ -1,16 +1,16 @@
-import sql from "../db.js";
+import prisma from "../lib/prisma.js";
+
 export default async function ping() {
-    try {
-        const now = await sql`
-        SELECT NOW()
-        `
-        return {
-            status: "ok"
-        }
-    } catch(err) {
-        console.log("PING Service Error: ",err);
-        return {
-            status: "error"
-        }
-    }
+  try {
+    await prisma.user.count();
+
+    return {
+      status: "ok",
+    };
+  } catch (err) {
+    return {
+      status: "error",
+      error: err,
+    };
+  }
 }

@@ -5,14 +5,14 @@ export default async function pingController(
   reply: FastifyReply
 ) {
   const data = await ping();
-  if(data.status == "ok") {
-    return { 
-      pong: "Everything is functional" 
-    };  
-  } else {
+  if(data.status=="ok"){
     return {
-      pong: "Database is down"
+      pong: "All connections functional!"
+    }
+  } else {
+    console.log("Error in auth-service ping route: ",data.error);
+    return {
+      pong: "Unhealthy, check logs"
     }
   }
-  
 }
