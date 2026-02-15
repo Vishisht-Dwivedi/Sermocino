@@ -23,6 +23,9 @@ importers:
       fastify-plugin:
         specifier: ^5.1.0
         version: 5.1.0
+      postgres:
+        specifier: ^3.4.8
+        version: 3.4.8
     devDependencies:
       '@types/node':
         specifier: ^25.2.3
@@ -413,6 +416,10 @@ packages:
   pino@10.3.1:
     resolution: {integrity: sha512-r34yH/GlQpKZbU1BvFFqOjhISRo1MNx1tWYsYvmj6KIRHSPMT2+yHOEb1SG6NMvRoHRF0a07kCOox/9yakl1vg==}
     hasBin: true
+
+  postgres@3.4.8:
+    resolution: {integrity: sha512-d+JFcLM17njZaOLkv6SCev7uoLaBtfK86vMUXhW1Z4glPWh4jozno9APvW/XKFJ3CCxVoC7OL38BqRydtu5nGg==}
+    engines: {node: '>=12'}
 
   process-warning@4.0.1:
     resolution: {integrity: sha512-3c2LzQ3rY9d0hc1emcsHhfT9Jwz0cChib/QN89oME2R451w5fy3f0afAhERFZAwrbDU43wk12d0ORBpDVME50Q==}
@@ -868,6 +875,8 @@ snapshots:
       safe-stable-stringify: 2.5.0
       sonic-boom: 4.2.1
       thread-stream: 4.0.0
+
+  postgres@3.4.8: {}
 
   process-warning@4.0.1: {}
 
