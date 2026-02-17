@@ -1,6 +1,8 @@
+packages:
+  - services/*
+
 onlyBuiltDependencies:
   - '@prisma/engines'
+  - bcrypt
   - esbuild
   - prisma
-packages:
-  - "services/*"

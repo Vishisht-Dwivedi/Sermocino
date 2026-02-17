@@ -14,8 +14,9 @@ model User {
   email         String    @unique @db.VarChar(254)
   username      String    @unique @db.VarChar(100)
   passHash      String    @map("pass_hash") @db.VarChar(60)
-  createdAt     DateTime  @map("created_at") @db.Timestamptz(6)
-  updatedAt     DateTime? @map("updated_at") @db.Timestamptz(6)
+  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt     DateTime? @updatedAt @map("updated_at") @db.Timestamptz(6)
+
   emailVerified Boolean   @default(false) @map("email_verified")
 
   sessions      Session[]
