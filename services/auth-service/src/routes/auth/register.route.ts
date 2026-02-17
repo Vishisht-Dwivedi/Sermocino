@@ -1,5 +1,6 @@
-import { RouteShorthandOptions } from "fastify";
-
+import { RouteShorthandOptions, FastifyInstance } from "fastify";
+import registerController from "../../controllers/auth/register.controller.js";
+import { RegisterRequest } from "../../types/register.types.js";
 export const registerSchema: RouteShorthandOptions = {
   schema: {
     tags: ["Auth"],
@@ -97,3 +98,11 @@ export const registerSchema: RouteShorthandOptions = {
     }
   }
 };
+
+export default async function registerRoute(fastify: FastifyInstance) {
+  fastify.post<RegisterRequest>(
+    "/register",
+    registerSchema,
+    registerController
+  );
+}
