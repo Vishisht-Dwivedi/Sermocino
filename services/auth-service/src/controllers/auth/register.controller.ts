@@ -27,6 +27,9 @@ export default async function registerController(
 
   return reply.code(500).send({
     status: "error",
-    body: { message: "Internal Server Error" }
+    data: {
+      type: "server_error",
+      message: "Internal Server Error"
+    }
   });
 }

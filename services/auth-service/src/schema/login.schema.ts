@@ -1,22 +1,21 @@
 import { RouteShorthandOptions } from "fastify";
 
-export const registerSchema: RouteShorthandOptions = {
+export const loginSchema: RouteShorthandOptions = {
   schema: {
     tags: ["Auth"],
-    summary: "Register a new user",
+    summary: "Login for existing user",
 
     body: {
       type: "object",
-      required: ["email", "username", "password"],
+      required: ["email", "password"],
       properties: {
         email: { type: "string", format: "email" },
-        username: { type: "string", minLength: 3, maxLength: 100 },
         password: { type: "string", minLength: 6 }
       }
     },
 
     response: {
-      201: {
+      200: {
         type: "object",
         required: ["status", "data"],
         properties: {
@@ -32,34 +31,16 @@ export const registerSchema: RouteShorthandOptions = {
         }
       },
 
-      400: {
+      401: {
         type: "object",
         required: ["status", "data"],
         properties: {
           status: { type: "string", enum: ["error"] },
           data: {
             type: "object",
-            required: ["type", "caused_by"],
+            required: ["type"],
             properties: {
-              type: { type: "string", enum: ["validation_error"] },
-              caused_by: { type: "string" },
-              message: { type: "string" }
-            }
-          }
-        }
-      },
-
-      409: {
-        type: "object",
-        required: ["status", "data"],
-        properties: {
-          status: { type: "string", enum: ["error"] },
-          data: {
-            type: "object",
-            required: ["type", "field"],
-            properties: {
-              type: { type: "string", enum: ["duplicate"] },
-              field: { type: "string", enum: ["email", "username"] },
+              type: { type: "string", enum: ["invalid_credentials"] },
               message: { type: "string" }
             }
           }
