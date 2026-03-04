@@ -1,37 +1,37 @@
 import prisma from "../lib/prisma.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
-import { LoginServiceResponse, LoginUserPayload } from "../types/login.types.js"
+import crypto from "node:crypto"
+import {
+  LoginServiceResponse,
+  LoginUserPayload
+} from "../types/login.types.js"
 import { pass_regex, email_regex } from "../shared/regex.js"
-// imp: prevents timing attacks.. 
-// use a precomp hash to simulate computation and prevent hackers 
-// from knowing if their password is wrong
-// always compare ur hash
 const FAKE_HASH = "$2b$12$KbQiH5pT3s3v5jXHh2gF9eC9p4mM4XkC9zJzXyK5Y8eV9W3Zz0k5K"
 
 export default async function loginUser(body: {
   email: string
   password: string
 }): Promise<LoginServiceResponse> {
+
   try {
-    if(!pass_regex.test(body.password) || !email_regex.test(body.email)){
+    // Validate input
+    if (!email_regex.test(body.email) || !pass_regex.test(body.password)) {
       return {
         ok: false,
         code: 422,
         error: {
           type: "UNPROCESSABLE_INPUT",
-          message: "Email or Password is not in accordance to the guidelines"
+          message: "Invalid email or password format"
         }
       }
     }
-    const existingUser = await prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: { email: body.email }
     })
-
-    const hashToCompare = existingUser?.passHash ?? FAKE_HASH;
-    const passValid = await bcrypt.compare(body.password, hashToCompare);
-
-    if (!existingUser || !passValid) {
+    const hash = user?.passHash ?? FAKE_HASH
+    const valid = await bcrypt.compare(body.password, hash)
+    if (!user || !valid) {
       return {
         ok: false,
         code: 401,
@@ -41,23 +41,65 @@ export default async function loginUser(body: {
         }
       }
     }
+    const sessionId = crypto.randomUUID();
 
     const payload: LoginUserPayload = {
-      userId: existingUser.id
+      sub: user.id,
+      sid: sessionId
     }
-    const token = jwt.sign(
-      payload,
-      process.env.JWT_SECRET_KEY as string,
-      { expiresIn: "15m" }
-    )
 
+    const secret = process.env.JWT_SECRET_KEY
+    if (!secret) throw new Error("JWT_SECRET_KEY missing");
+
+    const accessToken = jwt.sign(payload, secret, {
+      expiresIn: "15m",
+      issuer: "sermocino-auth",
+      audience: "sermocino-api"
+    });
+
+    const refreshToken = crypto.randomBytes(64).toString("hex")
+    const refreshTokenHash = crypto
+      .createHash("sha256")
+      .update(refreshToken)
+      .digest("hex");
+
+    const now = new Date;
+    const expiresAt = new Date(Date.now() + 7*24*60*60*1000);
+
+    await prisma.$transaction(async (tx) => {
+      await tx.session.create({
+        data: {
+          id: sessionId,
+          user: {
+            connect: { id: user.id }
+          },
+          createdAt: now,
+          lastUsedAt: now,
+          revoked: false
+        }
+      })
+      await tx.refreshToken.create({
+        data: {
+          id: crypto.randomUUID(),
+          tokenHash: refreshTokenHash,
+          createdAt: now,
+          expiresAt,
+          revoked: false,
+          session: {
+            connect: { id: sessionId }
+          }
+        }
+      })
+    });
     return {
       ok: true,
       code: 200,
       data: {
-        token
+        accessToken,
+        refreshToken
       }
     }
+
   } catch (error) {
     console.error("Login error:", error)
     return {

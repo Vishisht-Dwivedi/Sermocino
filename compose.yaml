@@ -31,6 +31,8 @@ services:
       PORT: 3000
       DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
       JWT_SECRET_KEY: "${JWT_SECRET}"
+      COOKIE_SECRET: "920a25b214bf89e6e3ad3faa5d1fdd7619a1e9dc97f4cadfbe3cbd284ab18db5"
+      NODE_ENV: "development"
     restart: unless-stopped
 
 volumes:

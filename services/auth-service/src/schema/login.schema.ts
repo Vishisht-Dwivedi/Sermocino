@@ -23,9 +23,9 @@ export const loginSchema: RouteShorthandOptions = {
           code: { type: "number", const: 200 },
           data: {
             type: "object",
-            required: ["token"],
+            required: ["accessToken"],
             properties: {
-              token: { type: "string" }
+              accessToken: { type: "string" }
             }
           }
         }

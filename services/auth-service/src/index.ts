@@ -5,11 +5,15 @@ import swaggerPlugin from "./plugins/swagger.js";
 import pingRoute from "./routes/ping.route.js";
 import registerRoute from "./routes/auth/register.route.js";
 import loginRoute from "./routes/auth/login.route.js";
+import fastifyCookie from "@fastify/cookie";
 
 const app = Fastify({
   logger: true
 });
 //plugins
+await app.register(fastifyCookie,{
+  secret: process.env.COOKIE_SECRET
+});
 await app.register(swaggerPlugin);
 //routes
 await app.register(pingRoute);

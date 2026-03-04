@@ -1,7 +1,7 @@
 import { RouteGenericInterface } from "fastify";
 import * as jwt from "jsonwebtoken";
 import { ServiceResponse } from "./global.types.js";
-
+import { Prisma } from "@prisma/client";
 export interface LoginRequest extends RouteGenericInterface {
   Body: {
     email: string;
@@ -14,10 +14,12 @@ export type LoginUserObject = {
 }
 
 export interface LoginResponseData {
-  token: string
+  accessToken: string,
+  refreshToken: string
 }
 export type LoginServiceResponse = ServiceResponse<LoginResponseData>
 
 export interface LoginUserPayload extends jwt.JwtPayload {
-  userId: string;
+  sub: string
+  sid: string
 }

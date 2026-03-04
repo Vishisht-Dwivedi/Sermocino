@@ -7,7 +7,23 @@ export default async function loginController(
   reply: FastifyReply
 ) {
   const result = await loginUser(request.body);
-  return reply
-    .code(result.code)
-    .send(result)
+  if(result.code===200 && result.data){
+
+    reply.setCookie("refreshToken", result.data.refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      path: "/auth/refresh",
+      maxAge: 7*24*60*60
+    });
+
+    return reply.code(200).send({
+      ok: true,
+      code: 200,
+      data: {
+        accessToken: result.data.accessToken
+      }
+    });
+  }
+  return reply.code(result.code).send(result)
 }
