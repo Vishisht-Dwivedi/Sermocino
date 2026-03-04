@@ -3,13 +3,23 @@ import bcrypt from "bcrypt"
 import crypto from "node:crypto"
 import { Prisma } from "@prisma/client"
 import { RegisterServiceResponse } from "../types/register.types.js"
-
+import { pass_regex, email_regex } from "../shared/regex.js"
 export default async function registerUser(body: {
   email: string
   username: string
   password: string
 }): Promise<RegisterServiceResponse> {
   try {
+    if(!pass_regex.test(body.password) || !email_regex.test(body.email)){
+      return {
+        ok: false,
+        code: 422,
+        error: {
+          type: "UNPROCESSABLE_INPUT",
+          message: "Email or Password is not in accordance to the guidelines"
+        }
+      }
+    }
     const passHash = await bcrypt.hash(body.password, 12);
 
     const user = await prisma.user.create({

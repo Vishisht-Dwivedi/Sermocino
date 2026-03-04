@@ -2,8 +2,8 @@ import prisma from "../lib/prisma.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { LoginServiceResponse, LoginUserPayload } from "../types/login.types.js"
-
-//imp: prevents timing attacks.. 
+import { pass_regex, email_regex } from "../shared/regex.js"
+// imp: prevents timing attacks.. 
 // use a precomp hash to simulate computation and prevent hackers 
 // from knowing if their password is wrong
 // always compare ur hash
@@ -14,6 +14,16 @@ export default async function loginUser(body: {
   password: string
 }): Promise<LoginServiceResponse> {
   try {
+    if(!pass_regex.test(body.password) || !email_regex.test(body.email)){
+      return {
+        ok: false,
+        code: 422,
+        error: {
+          type: "UNPROCESSABLE_INPUT",
+          message: "Email or Password is not in accordance to the guidelines"
+        }
+      }
+    }
     const existingUser = await prisma.user.findUnique({
       where: { email: body.email }
     })
@@ -22,7 +32,7 @@ export default async function loginUser(body: {
     const passValid = await bcrypt.compare(body.password, hashToCompare);
 
     if (!existingUser || !passValid) {
-      const returnObj: LoginServiceResponse = {
+      return {
         ok: false,
         code: 401,
         error: {
@@ -30,7 +40,6 @@ export default async function loginUser(body: {
           message: "Invalid email or password"
         }
       }
-      return returnObj;
     }
 
     const payload: LoginUserPayload = {
@@ -42,17 +51,16 @@ export default async function loginUser(body: {
       { expiresIn: "15m" }
     )
 
-    const returnObj: LoginServiceResponse = {
+    return {
       ok: true,
       code: 200,
       data: {
         token
       }
     }
-    return returnObj;
   } catch (error) {
     console.error("Login error:", error)
-    const returnObj: LoginServiceResponse = {
+    return {
       ok: false,
       code: 500,
       error: {
@@ -60,6 +68,5 @@ export default async function loginUser(body: {
         message: "Something went wrong"
       }
     }
-    return returnObj;
   }
 }

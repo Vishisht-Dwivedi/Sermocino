@@ -47,7 +47,22 @@ export const loginSchema: RouteShorthandOptions = {
           }
         }
       },
-
+      422: {
+        type: "object",
+        required: ["ok", "code", "error"],
+        properties: {
+          ok: { type: "boolean", const: false },
+          code: { type: "number", const: 422 },
+          error: {
+            type: "object",
+            required: ["type", "message"],
+            properties: {
+              type: { type: "string", enum: ["UNPROCESSABLE_INPUT"] },
+              message: { type: "string" }
+            }
+          }
+        }
+      },
       500: {
         type: "object",
         required: ["ok", "code", "error"],
