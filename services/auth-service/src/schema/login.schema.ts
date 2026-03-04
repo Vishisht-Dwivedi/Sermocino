@@ -3,7 +3,7 @@ import { RouteShorthandOptions } from "fastify";
 export const loginSchema: RouteShorthandOptions = {
   schema: {
     tags: ["Auth"],
-    summary: "Login for existing user",
+    summary: "Login existing user",
 
     body: {
       type: "object",
@@ -17,15 +17,15 @@ export const loginSchema: RouteShorthandOptions = {
     response: {
       200: {
         type: "object",
-        required: ["status", "data"],
+        required: ["ok", "code", "data"],
         properties: {
-          status: { type: "string", enum: ["ok"] },
+          ok: { type: "boolean", const: true },
+          code: { type: "number", const: 200 },
           data: {
             type: "object",
-            required: ["username", "email"],
+            required: ["token"],
             properties: {
-              username: { type: "string" },
-              email: { type: "string" }
+              token: { type: "string" }
             }
           }
         }
@@ -33,14 +33,15 @@ export const loginSchema: RouteShorthandOptions = {
 
       401: {
         type: "object",
-        required: ["status", "data"],
+        required: ["ok", "code", "error"],
         properties: {
-          status: { type: "string", enum: ["error"] },
-          data: {
+          ok: { type: "boolean", const: false },
+          code: { type: "number", const: 401 },
+          error: {
             type: "object",
-            required: ["type"],
+            required: ["type", "message"],
             properties: {
-              type: { type: "string", enum: ["invalid_credentials"] },
+              type: { type: "string", enum: ["AUTH_INVALID_CREDENTIALS"] },
               message: { type: "string" }
             }
           }
@@ -49,14 +50,15 @@ export const loginSchema: RouteShorthandOptions = {
 
       500: {
         type: "object",
-        required: ["status", "data"],
+        required: ["ok", "code", "error"],
         properties: {
-          status: { type: "string", enum: ["error"] },
-          data: {
+          ok: { type: "boolean", const: false },
+          code: { type: "number", const: 500 },
+          error: {
             type: "object",
-            required: ["type"],
+            required: ["type", "message"],
             properties: {
-              type: { type: "string", enum: ["server_error"] },
+              type: { type: "string", enum: ["INTERNAL_SERVER_ERROR"] },
               message: { type: "string" }
             }
           }

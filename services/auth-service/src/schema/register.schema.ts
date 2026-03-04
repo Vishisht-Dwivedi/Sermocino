@@ -3,7 +3,7 @@ import { RouteShorthandOptions } from "fastify";
 export const registerSchema: RouteShorthandOptions = {
   schema: {
     tags: ["Auth"],
-    summary: "Register a new user",
+    summary: "Register new user",
 
     body: {
       type: "object",
@@ -18,9 +18,10 @@ export const registerSchema: RouteShorthandOptions = {
     response: {
       201: {
         type: "object",
-        required: ["status", "data"],
+        required: ["ok", "code", "data"],
         properties: {
-          status: { type: "string", enum: ["ok"] },
+          ok: { type: "boolean", const: true },
+          code: { type: "number", const: 201 },
           data: {
             type: "object",
             required: ["username", "email"],
@@ -32,34 +33,17 @@ export const registerSchema: RouteShorthandOptions = {
         }
       },
 
-      400: {
-        type: "object",
-        required: ["status", "data"],
-        properties: {
-          status: { type: "string", enum: ["error"] },
-          data: {
-            type: "object",
-            required: ["type", "caused_by"],
-            properties: {
-              type: { type: "string", enum: ["validation_error"] },
-              caused_by: { type: "string" },
-              message: { type: "string" }
-            }
-          }
-        }
-      },
-
       409: {
         type: "object",
-        required: ["status", "data"],
+        required: ["ok", "code", "error"],
         properties: {
-          status: { type: "string", enum: ["error"] },
-          data: {
+          ok: { type: "boolean", const: false },
+          code: { type: "number", const: 409 },
+          error: {
             type: "object",
-            required: ["type", "field"],
+            required: ["type", "message"],
             properties: {
-              type: { type: "string", enum: ["duplicate"] },
-              field: { type: "string", enum: ["email", "username"] },
+              type: { type: "string", enum: ["RESOURCE_CONFLICT"] },
               message: { type: "string" }
             }
           }
@@ -68,14 +52,15 @@ export const registerSchema: RouteShorthandOptions = {
 
       500: {
         type: "object",
-        required: ["status", "data"],
+        required: ["ok", "code", "error"],
         properties: {
-          status: { type: "string", enum: ["error"] },
-          data: {
+          ok: { type: "boolean", const: false },
+          code: { type: "number", const: 500 },
+          error: {
             type: "object",
-            required: ["type"],
+            required: ["type", "message"],
             properties: {
-              type: { type: "string", enum: ["server_error"] },
+              type: { type: "string", enum: ["INTERNAL_SERVER_ERROR"] },
               message: { type: "string" }
             }
           }

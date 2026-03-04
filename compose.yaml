@@ -30,6 +30,7 @@ services:
     environment:
       PORT: 3000
       DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      JWT_SECRET_KEY: "${JWT_SECRET}"
     restart: unless-stopped
 
 volumes:

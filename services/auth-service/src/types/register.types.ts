@@ -1,4 +1,5 @@
 import { RouteGenericInterface } from "fastify";
+import { ServiceResponse } from "./global.types.js";
 
 export interface RegisterRequest extends RouteGenericInterface {
   Body: {
@@ -14,11 +15,8 @@ export type RegisterUserObject = {
     passHash: string,
     emailVerified: boolean
 }
-export interface RegisterServiceResponse {
-    status: string,
-    error?: string,
-    body?: {
-        username: string,
-        email: string
-    }
+export interface RegisterResponseData {
+  username: string
+  email: string
 }
+export type RegisterServiceResponse = ServiceResponse<RegisterResponseData>
