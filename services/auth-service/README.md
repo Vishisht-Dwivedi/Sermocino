@@ -1,6 +1,8 @@
 # Auth Service — Architecture & Flow
 
-This document describes the **internal architecture and request/response lifecycle** of the Sermocino Auth Service.
+This document describes the **internal architecture and request/response lifecycle** of the Sermocino Auth Service. 
+
+It is based upon OWASP guidelines and follows best practices needed to ensure proper Auth and Session management as written in OWASP Authentication and Session Management Cheat Sheets.
 
 It is an infrastructure service that issues and verifies identity tokens for the rest of the platform.
 
