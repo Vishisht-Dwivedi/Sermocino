@@ -1,5 +1,8 @@
-# Sermocino
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/5957cb48-14ae-48aa-92d1-ef2e8536c448" width="300px">
+</p>
 
+# Sermocino
 > Real-time communication platform with live semantic analysis and influence modeling.
 
 Sermocino is a distributed communication system that combines video meetings, chat, and file sharing with real-time conversational intelligence.
