@@ -14,6 +14,7 @@ export default async function loginController(
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
       path: "/auth/refresh",
+      signed: true,
       maxAge: 7*24*60*60
     });
 

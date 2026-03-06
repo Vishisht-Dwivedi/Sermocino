@@ -18,8 +18,3 @@ export interface LoginResponseData {
   refreshToken: string
 }
 export type LoginServiceResponse = ServiceResponse<LoginResponseData>
-
-export interface LoginUserPayload extends jwt.JwtPayload {
-  sub: string
-  sid: string
-}

@@ -6,7 +6,7 @@ export default async function refreshController(
   request: FastifyRequest<RefreshRequest>,
   reply: FastifyReply
 ) {
-    const refreshToken = request.cookies.refreshToken;
+    const refreshToken = request.signedCookies.refreshToken;
     if(!refreshToken) {
         return reply.code(401).send({
             ok: false,

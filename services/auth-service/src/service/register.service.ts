@@ -10,13 +10,18 @@ export default async function registerUser(body: {
   password: string
 }): Promise<RegisterServiceResponse> {
   try {
-    if(!pass_regex.test(body.password) || !email_regex.test(body.email)){
+    if (
+      !pass_regex.test(body.password) ||
+      !email_regex.test(body.email) ||
+      body.username.length < 3 ||
+      body.username.length > 100
+    ){
       return {
         ok: false,
         code: 422,
         error: {
           type: "UNPROCESSABLE_INPUT",
-          message: "Email or Password is not in accordance to the guidelines"
+          message: "Entered Credentials are not in accordance to the guidelines"
         }
       }
     }

@@ -2,20 +2,15 @@ import prisma from "../lib/prisma.js"
 import jwt from "jsonwebtoken"
 import crypto from "node:crypto"
 import { LogoutServiceResponse } from "../types/logout.types.js"
-import { LoginUserPayload } from "../types/login.types.js"
+import { JWTPayload } from "../types/global.types.js"
 
 
 export default async function logoutUser(
-    accessToken: string,
+    userObject: JWTPayload|undefined,
     refreshToken: string
 ): Promise<LogoutServiceResponse> {
-  try {
-    const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
-    if(!JWT_SECRET_KEY) {
-        throw new Error("Environment variable not recieved");
-    }
-    const decodedPayload = <LoginUserPayload>jwt.verify(accessToken,JWT_SECRET_KEY);
-    if(!decodedPayload || refreshToken.length != 128){
+  try { 
+    if(!userObject || refreshToken.length != 128){
         return {
             ok: true,
             code: 200,
@@ -24,7 +19,7 @@ export default async function logoutUser(
             }
         }
     }
-    const {sub, sid} = decodedPayload;
+    const {sub, sid} = userObject;
     const refreshTokenHash = crypto
         .createHash("sha256")
         .update(refreshToken)

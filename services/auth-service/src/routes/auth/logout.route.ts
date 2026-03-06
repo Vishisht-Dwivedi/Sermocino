@@ -5,8 +5,11 @@ import { LogoutRequest } from "../../types/logout.types.js";
 
 export default async function logoutRoute(fastify: FastifyInstance) {
   fastify.post<LogoutRequest>(
-    "/logout",
-    logoutSchema,
-    logoutController
-  );
+  "/logout",
+  {
+    ...logoutSchema,
+    preHandler: fastify.authenticate
+  },
+  logoutController
+);
 }

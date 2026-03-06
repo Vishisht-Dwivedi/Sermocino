@@ -3,10 +3,10 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import crypto from "node:crypto"
 import {
-  LoginServiceResponse,
-  LoginUserPayload
+  LoginServiceResponse
 } from "../types/login.types.js"
 import { pass_regex, email_regex } from "../shared/regex.js"
+import { JWTPayload } from "../types/global.types.js"
 const FAKE_HASH = "$2b$12$KbQiH5pT3s3v5jXHh2gF9eC9p4mM4XkC9zJzXyK5Y8eV9W3Zz0k5K"
 
 export default async function loginUser(body: {
@@ -43,7 +43,7 @@ export default async function loginUser(body: {
     }
     const sessionId = crypto.randomUUID();
 
-    const payload: LoginUserPayload = {
+    const payload: JWTPayload = {
       sub: user.id,
       sid: sessionId
     }

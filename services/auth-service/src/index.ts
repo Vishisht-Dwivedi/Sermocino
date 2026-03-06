@@ -1,6 +1,7 @@
 import Fastify from "fastify";
 // plugins
 import swaggerPlugin from "./plugins/swagger.js";
+import authPlugin from "./plugins/auth.plugin.js";
 //routes
 import pingRoute from "./routes/ping.route.js";
 import registerRoute from "./routes/auth/register.route.js";
@@ -16,6 +17,7 @@ const app = Fastify({
 await app.register(fastifyCookie,{
   secret: process.env.COOKIE_SECRET
 });
+await app.register(authPlugin);
 await app.register(swaggerPlugin);
 //routes
 await app.register(pingRoute);
