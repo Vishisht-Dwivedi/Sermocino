@@ -37,6 +37,17 @@
     --sidebar-accent-foreground: oklch(0.216 0.006 56.043);
     --sidebar-border: oklch(0.923 0.003 48.717);
     --sidebar-ring: oklch(0.709 0.01 56.259);
+    --custom-emerald-50:  #ecfdf5;
+    --custom-emerald-100: #d1fae5;
+    --custom-emerald-200: #a7f3d0;
+    --custom-emerald-300: #6ee7b7;
+    --custom-emerald-400: #34d399;
+    --custom-emerald-500: #10b981;
+    --custom-emerald-600: #059669;
+    --custom-emerald-700: #047857;
+    --custom-emerald-800: #065f46;
+    --custom-emerald-900: #064e3b;
+    --custom-emerald-950: #022c22;
 }
 
 .dark {
