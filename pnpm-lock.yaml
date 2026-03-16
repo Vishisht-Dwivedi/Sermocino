@@ -12,7 +12,7 @@ importers:
         specifier: ^25.2.3
         version: 25.3.3
 
-  clients/auth-client:
+  clients/web:
     dependencies:
       '@phosphor-icons/react':
         specifier: ^2.1.10
