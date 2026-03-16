@@ -7,6 +7,7 @@ import {
 } from "../types/login.types.js"
 import { pass_regex, email_regex } from "../shared/regex.js"
 import { JWTPayload } from "../types/global.types.js"
+import { Prisma } from "@prisma/client/extension"
 const FAKE_HASH = "$2b$12$KbQiH5pT3s3v5jXHh2gF9eC9p4mM4XkC9zJzXyK5Y8eV9W3Zz0k5K"
 
 export default async function loginUser(body: {
@@ -66,7 +67,7 @@ export default async function loginUser(body: {
     const now = new Date;
     const expiresAt = new Date(Date.now() + 7*24*60*60*1000);
 
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx:Prisma.TransactionClient) => {
       await tx.session.create({
         data: {
           id: sessionId,

@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken"
 import crypto from "node:crypto"
 import { LogoutServiceResponse } from "../types/logout.types.js"
 import { JWTPayload } from "../types/global.types.js"
+import { Prisma } from "@prisma/client/extension"
 
 
 export default async function logoutUser(
@@ -24,7 +25,7 @@ export default async function logoutUser(
         .createHash("sha256")
         .update(refreshToken)
         .digest("hex")
-    await prisma.$transaction(async (tx)=>{
+    await prisma.$transaction(async (tx:Prisma.TransactionClient)=>{
         await tx.session.updateMany({
             where: {
                 id: sid

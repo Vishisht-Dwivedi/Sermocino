@@ -30,6 +30,8 @@ services:
       context: .
       dockerfile: services/auth-service/Dockerfile
     container_name: sermocino-auth
+    ports:
+      - "3001:3000"
     depends_on:
       postgres:
         condition: service_healthy

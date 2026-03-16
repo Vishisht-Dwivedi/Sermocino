@@ -1,3 +1,8 @@
 node_modules
 .dockerignore
 .env
+dist
+dist/
+*.generated.*
+.next
+.DS_Store

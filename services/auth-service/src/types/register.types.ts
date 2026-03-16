@@ -1,22 +1,22 @@
-import { RouteGenericInterface } from "fastify";
-import { ServiceResponse } from "./global.types.js";
+import { RouteGenericInterface } from "fastify"
+import { ServiceResponse } from "./global.types.js"
+import { RegisterInput } from "@sermocino/shared"
 
 export interface RegisterRequest extends RouteGenericInterface {
-  Body: {
-    email: string;
-    username: string;
-    password: string;
-  };
+  Body: RegisterInput
 }
+
 export type RegisterUserObject = {
-    id: string,
-    email: string,
-    username: string,
-    passHash: string,
-    emailVerified: boolean
+  id: string
+  email: string
+  username: string
+  passHash: string
+  emailVerified: boolean
 }
+
 export interface RegisterResponseData {
   username: string
   email: string
 }
+
 export type RegisterServiceResponse = ServiceResponse<RegisterResponseData>

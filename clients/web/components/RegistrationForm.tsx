@@ -22,7 +22,7 @@ export default function RegistrationForm() {
       <CardContent className="space-y-4">
         <Input
           type="text"
-          placeholder="Full Name"
+          placeholder="Username"
           className="w-full rounded-lg border border-emerald-900/40 bg-white/60 px-4 py-5 outline-none focus:ring-2 focus:ring-emerald-400"
         />
         <Input
