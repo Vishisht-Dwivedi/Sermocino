@@ -21,10 +21,10 @@ await app.register(authPlugin);
 await app.register(swaggerPlugin);
 //routes
 await app.register(pingRoute);
-await app.register(registerRoute, {prefix: "/auth"});
-await app.register(loginRoute, {prefix: "/auth"});
-await app.register(refreshRoute, {prefix: "/auth"});
-await app.register(logoutRoute, {prefix: "/auth"});
+await app.register(registerRoute);
+await app.register(loginRoute);
+await app.register(refreshRoute);
+await app.register(logoutRoute);
 
 await app.listen({
   port: 3000,
