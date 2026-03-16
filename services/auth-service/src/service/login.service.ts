@@ -7,7 +7,7 @@ import {
 } from "../types/login.types.js"
 import { pass_regex, email_regex } from "../shared/regex.js"
 import { JWTPayload } from "../types/global.types.js"
-import { Prisma } from "@prisma/client/extension"
+import { Prisma } from "@prisma/client"
 const FAKE_HASH = "$2b$12$KbQiH5pT3s3v5jXHh2gF9eC9p4mM4XkC9zJzXyK5Y8eV9W3Zz0k5K"
 
 export default async function loginUser(body: {

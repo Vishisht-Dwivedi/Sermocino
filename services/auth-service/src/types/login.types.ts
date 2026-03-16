@@ -1,11 +1,9 @@
 import { RouteGenericInterface } from "fastify";
 import { ServiceResponse } from "./global.types.js";
+import { LoginInput } from "@sermocino/shared";
 
 export interface LoginRequest extends RouteGenericInterface {
-  Body: {
-    email: string;
-    password: string;
-  };
+  Body: LoginInput
 }
 export type LoginUserObject = {
     email: string,

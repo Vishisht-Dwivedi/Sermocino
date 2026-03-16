@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken"
 import crypto from "node:crypto"
 import { LogoutServiceResponse } from "../types/logout.types.js"
 import { JWTPayload } from "../types/global.types.js"
-import { Prisma } from "@prisma/client/extension"
+import { Prisma } from "@prisma/client"
 
 
 export default async function logoutUser(

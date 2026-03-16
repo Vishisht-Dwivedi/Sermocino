@@ -1,1 +1,1 @@
-export * from "./schemas/auth/register.js"
+export * from "./schemas/auth.js"

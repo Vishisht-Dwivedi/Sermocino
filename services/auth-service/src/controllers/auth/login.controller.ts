@@ -1,12 +1,14 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 import { LoginRequest } from "../../types/login.types.js"
 import loginUser from "../../service/login.service.js"
+import { LoginSchema } from "@sermocino/shared";
 
 export default async function loginController(
   request: FastifyRequest<LoginRequest>,
   reply: FastifyReply
 ) {
-  const result = await loginUser(request.body);
+  const body = LoginSchema.parse(request.body);
+  const result = await loginUser(body);
   if(result.code===200 && result.data){
 
     reply.setCookie("refreshToken", result.data.refreshToken, {
