@@ -1,15 +1,4 @@
 services:
-  nginx:
-    image: nginx:stable-alpine
-    ports:
-      - "80:80"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    volumes:
-      - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-    depends_on:
-      - auth-service
-      - postgres
   postgres:
     image: postgres:18
     container_name: sermocino-postgres
@@ -24,14 +13,14 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    restart: unless-stopped
+    networks:
+      - sermocino-network
 
   auth-service:
     build:
       context: .
       dockerfile: services/auth-service/Dockerfile
-    container_name: sermocino-auth
-    ports:
-      - "3001:3000"
     depends_on:
       postgres:
         condition: service_healthy
@@ -41,6 +30,41 @@ services:
       JWT_SECRET_KEY: "${JWT_SECRET}"
       COOKIE_SECRET: "${COOKIE_SECRET}"
       NODE_ENV: "development"
+      CI: "true"
     restart: unless-stopped
+    networks:
+      - sermocino-network
+
+  web:
+    build:
+      context: .
+      dockerfile: clients/web/Dockerfile
+    environment:
+      NODE_ENV: "development"
+      CI: "true"
+    restart: unless-stopped
+    networks:
+      - sermocino-network
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: sermocino-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - auth-service
+      - web
+      - postgres
+    restart: unless-stopped
+    networks:
+      - sermocino-network
+
 volumes:
   pgdata:
+
+networks:
+  sermocino-network:
+    driver: bridge
