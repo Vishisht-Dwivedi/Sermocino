@@ -1,6 +1,6 @@
-import WaveBackground from "@/components/WaveBackground"
+import WaveBackground from "@/components/auth/WaveBackground"
 import { ThemeProvider } from "@/components/theme-provider"
-
+import { Toaster } from "@/components/ui/sonner"
 export default function Layout({
   children,
 }: Readonly<{
@@ -9,6 +9,7 @@ export default function Layout({
   return (
     <>
       <WaveBackground />
+      <Toaster />
       <ThemeProvider>{children}</ThemeProvider>
     </>
   )

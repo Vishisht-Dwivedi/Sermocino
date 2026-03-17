@@ -1,5 +1,5 @@
 import { Geist, Geist_Mono, Nunito_Sans } from "next/font/google"
-import WaveBackground from "@/components/WaveBackground"
+import WaveBackground from "@/components/auth/WaveBackground"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"

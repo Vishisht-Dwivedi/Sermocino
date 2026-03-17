@@ -1,8 +1,7 @@
 import Image from "next/image"
 import { Tabs, TabsList, TabsContent, TabsTrigger } from "@/components/ui/tabs"
-import LoginForm from "@/components/LoginForm"
-import RegistrationForm from "@/components/RegistrationForm"
-
+import LoginForm from "@/components/auth/LoginForm"
+import RegistrationForm from "@/components/auth/RegistrationForm"
 export default function Page() {
   return (
     <main className="grid min-h-screen grid-cols-1 lg:grid-cols-2 h-screen w-screen bg-emerald-50/10">

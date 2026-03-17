@@ -2,6 +2,8 @@ import Fastify from "fastify";
 // plugins
 import swaggerPlugin from "./plugins/swagger.js";
 import authPlugin from "./plugins/auth.plugin.js";
+import cors from "@fastify/cors"
+
 //routes
 import pingRoute from "./routes/ping.route.js";
 import registerRoute from "./routes/auth/register.route.js";
@@ -14,6 +16,10 @@ const app = Fastify({
   logger: true
 });
 //plugins
+await app.register(cors, {
+  origin: "*",
+  credentials: true
+})
 await app.register(fastifyCookie,{
   secret: process.env.COOKIE_SECRET
 });
