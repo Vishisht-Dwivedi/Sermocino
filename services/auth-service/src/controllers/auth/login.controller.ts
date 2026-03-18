@@ -9,13 +9,14 @@ export default async function loginController(
 ) {
   const body = LoginSchema.parse(request.body);
   const result = await loginUser(body);
+  console.log(result);
   if(result.code===200 && result.data){
-
+    console.log("Setting cookie");
     reply.setCookie("refreshToken", result.data.refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      path: "/auth/refresh",
+      sameSite: "lax",
+      path: "/",
       signed: true,
       maxAge: 7*24*60*60
     });

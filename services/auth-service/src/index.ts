@@ -17,7 +17,10 @@ const app = Fastify({
 });
 //plugins
 await app.register(cors, {
-  origin: "*",
+   origin: [
+    "http://localhost:3000",
+    "http://localhost"
+  ],
   credentials: true
 })
 await app.register(fastifyCookie,{

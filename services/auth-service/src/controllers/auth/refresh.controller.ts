@@ -19,14 +19,15 @@ export default async function refreshController(
     }
     const res = await refreshUser(refreshToken);
     if(!res.ok){
-        reply.clearCookie('refreshToken', { path: '/auth/refresh' });
+        reply.clearCookie('refreshToken', { path: '/' });
         return reply.code(res.code).send(res);
     }
     reply.setCookie("refreshToken", res.data?.refreshToken??"", {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        path: "/auth/refresh",
+        sameSite: "lax",
+        path: "/",
+        signed: true,
         maxAge: 7*24*60*60
     });
     return reply.code(res.code).send({

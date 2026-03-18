@@ -5,7 +5,7 @@ export async function apiFetch<T>(
   options?: RequestInit
 ): Promise<ServiceResponse<T>> {
   const res = await fetch(url, {
-    // credentials: "include",
+    credentials: "include",
     ...options
   })
 

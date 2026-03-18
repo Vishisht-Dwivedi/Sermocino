@@ -7,7 +7,7 @@ export default async function logoutController(
     reply: FastifyReply
 ) {
     const refreshToken = request.cookies.refreshToken;
-    reply.clearCookie('refreshToken', { path: '/auth/refresh' });
+    reply.clearCookie('refreshToken', { path: '/' });
     const userObject = request.user;
     const result = await logoutUser(userObject, refreshToken||"");
     return reply.code(result.code).send(result);
