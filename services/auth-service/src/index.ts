@@ -1,4 +1,4 @@
-import Fastify from "fastify";
+import Fastify, { fastify } from "fastify";
 // plugins
 import swaggerPlugin from "./plugins/swagger.js";
 import authPlugin from "./plugins/auth.plugin.js";
@@ -13,7 +13,9 @@ import refreshRoute from "./routes/auth/refresh.route.js";
 import logoutRoute from "./routes/auth/logout.route.js";
 
 const app = Fastify({
-  logger: true
+  logger: true,
+  //sets proxy ips to trust, stores actual ip instead of container ip
+  trustProxy: true
 });
 //plugins
 await app.register(cors, {

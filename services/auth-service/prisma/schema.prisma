@@ -32,7 +32,10 @@ model Session {
   userId     String    @map("user_id") @db.VarChar(36)
   device     String?
   ip         String?   @db.Inet
-  userAgent  String?   @map("user_agent")
+  os         String?
+  browser    String?
+  userAgent  Json?   @map("user_agent")
+  fingerprint String?
   createdAt  DateTime  @map("created_at") @db.Timestamptz(6)
   lastUsedAt DateTime? @map("last_used_at") @db.Timestamptz(6)
   revoked    Boolean   @default(false)
@@ -41,6 +44,9 @@ model Session {
   refreshTokens RefreshToken[]
 
   @@map("sessions")
+  @@index([userId])
+  @@index([userId, revoked])
+  @@index([createdAt])
 }
 
 /*
@@ -57,4 +63,6 @@ model RefreshToken {
   session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
 
   @@map("refresh_tokens")
+  @@index([sessionId])
+  @@index([expiresAt])
 }

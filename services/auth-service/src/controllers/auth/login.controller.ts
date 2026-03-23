@@ -2,14 +2,25 @@ import { FastifyReply, FastifyRequest } from "fastify"
 import { LoginRequest } from "../../types/login.types.js"
 import loginUser from "../../service/login.service.js"
 import { LoginSchema } from "@sermocino/shared";
+import { UAParser } from 'ua-parser-js';
+import crypto from "node:crypto";
 
 export default async function loginController(
   request: FastifyRequest<LoginRequest>,
   reply: FastifyReply
 ) {
+  const ip = request.ip;
+  const parser = new UAParser(request.headers["user-agent"]);
+  const user_agent = parser.getResult();
+  const meta = {
+    ip,
+    user_agent,
+    device: user_agent.device.type || "desktop",
+    os: user_agent.os.name,
+    browser: user_agent.browser.name
+  }
   const body = LoginSchema.parse(request.body);
-  const result = await loginUser(body);
-  console.log(result);
+  const result = await loginUser(body, meta);
   if(result.code===200 && result.data){
     console.log("Setting cookie");
     reply.setCookie("refreshToken", result.data.refreshToken, {

@@ -8,12 +8,23 @@ import {
 import { pass_regex, email_regex } from "../shared/regex.js"
 import { JWTPayload } from "../types/global.types.js"
 import { Prisma } from "@prisma/client"
+import { IResult } from "ua-parser-js"
+
 const FAKE_HASH = "$2b$12$KbQiH5pT3s3v5jXHh2gF9eC9p4mM4XkC9zJzXyK5Y8eV9W3Zz0k5K"
 
-export default async function loginUser(body: {
-  email: string
-  password: string
-}): Promise<LoginServiceResponse> {
+export default async function loginUser(
+  body: {
+    email: string
+    password: string
+  },
+  meta: {
+    ip: string,
+    user_agent: IResult,
+    device: string,
+    os: string | undefined,
+    browser: string | undefined
+  }
+): Promise<LoginServiceResponse> {
 
   try {
     // Validate input
@@ -63,7 +74,16 @@ export default async function loginUser(body: {
       .createHash("sha256")
       .update(refreshToken)
       .digest("hex");
-
+    
+    const fingerprint = crypto
+      .createHash("sha256")
+      .update(
+        (meta.user_agent.ua || "") +
+        (meta.os || "") +
+        (meta.browser || "")
+      )
+      .digest("hex");
+    
     const now = new Date;
     const expiresAt = new Date(Date.now() + 7*24*60*60*1000);
 
@@ -74,6 +94,12 @@ export default async function loginUser(body: {
           user: {
             connect: { id: user.id }
           },
+          ip: meta.ip,
+          userAgent: JSON.parse(JSON.stringify(meta.user_agent)),
+          browser: meta.browser,
+          os: meta.os,
+          fingerprint,
+          device: meta.device,
           createdAt: now,
           lastUsedAt: now,
           revoked: false

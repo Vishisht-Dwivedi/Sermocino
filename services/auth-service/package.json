@@ -37,7 +37,8 @@
     "fastify-plugin": "^5.1.0",
     "jsonwebtoken": "^9.0.3",
     "pg": "^8.18.0",
-    "postgres": "^3.4.8"
+    "postgres": "^3.4.8",
+    "ua-parser-js": "^2.0.9"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
