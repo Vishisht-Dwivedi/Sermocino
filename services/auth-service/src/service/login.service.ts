@@ -6,7 +6,7 @@ import {
   LoginServiceResponse
 } from "../types/login.types.js"
 import { pass_regex, email_regex } from "../shared/regex.js"
-import { JWTPayload } from "../types/global.types.js"
+import { JWTPayload, MetaData } from "../types/global.types.js"
 import { Prisma } from "@prisma/client"
 import { IResult } from "ua-parser-js"
 
@@ -17,13 +17,7 @@ export default async function loginUser(
     email: string
     password: string
   },
-  meta: {
-    ip: string,
-    user_agent: IResult,
-    device: string,
-    os: string | undefined,
-    browser: string | undefined
-  }
+  meta: MetaData
 ): Promise<LoginServiceResponse> {
 
   try {
