@@ -12,6 +12,7 @@ import fastifyCookie from "@fastify/cookie";
 import refreshRoute from "./routes/auth/refresh.route.js";
 import logoutRoute from "./routes/auth/logout.route.js";
 import sendOTPRoute from "./routes/otp/sendOTP.routes.js";
+import verifyOTPRoute from "./routes/otp/verifyOTP.routes.js";
 
 const app = Fastify({
   logger: true,
@@ -38,6 +39,7 @@ await app.register(loginRoute);
 await app.register(refreshRoute);
 await app.register(logoutRoute);
 await app.register(sendOTPRoute);
+await app.register(verifyOTPRoute);
 
 console.log(app.printRoutes());
 await app.listen({

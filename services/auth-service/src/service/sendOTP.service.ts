@@ -42,7 +42,10 @@ export default async function sendOTP(body: {
         }
         return {
             ok: true,
-            code: 200
+            code: 200,
+            data: {
+                message: "OTP Sent Successfully"
+            }
         }
     } catch (error) {
         console.log("SendOTP Error: ", error);

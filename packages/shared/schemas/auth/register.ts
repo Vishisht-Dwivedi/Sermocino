@@ -12,7 +12,9 @@ export const RegisterSchema = z.object({
     .regex(/[A-Z]/, "Must contain uppercase letter")
     .regex(/[a-z]/, "Must contain lowercase letter")
     .regex(/[0-9]/, "Must contain number")
-    .regex(/[^A-Za-z0-9]/, "Must contain special character")
+    .regex(/[^A-Za-z0-9]/, "Must contain special character"),
+  
+  verification_token: z.string()
 })
 
 export type RegisterInput = z.infer<typeof RegisterSchema>
