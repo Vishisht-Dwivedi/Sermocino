@@ -7,7 +7,6 @@ export default async function registerController(
   request: FastifyRequest<RegisterRequest>,
   reply: FastifyReply
 ) {
-  
   const body = RegisterSchema.parse(request.body)
   const result = await registerUser(body);
   return reply

@@ -1,48 +1,29 @@
 import { RouteShorthandOptions } from "fastify";
 
-export const registerSchema: RouteShorthandOptions = {
+export const sendOTPSchema: RouteShorthandOptions = {
   schema: {
-    tags: ["Auth"],
-    summary: "Register new user",
+    tags: ["Send"],
+    summary: "Sends otp to provided email address",
 
     body: {
       type: "object",
-      required: ["email", "password", "verification_token"],
+      required: ["email"],
       properties: {
-        email: { type: "string", format: "email" },
-        password: { type: "string", minLength: 6 },
-        verification_token: { type: "string" }
+        email: { type: "string", format: "email" }
       }
     },
 
     response: {
-      201: {
+      200: {
         type: "object",
         required: ["ok", "code", "data"],
         properties: {
           ok: { type: "boolean", const: true },
-          code: { type: "number", const: 201 },
+          code: { type: "number", const: 200 },
           data: {
             type: "object",
-            required: ["email"],
+            required: ["message"],
             properties: {
-              email: { type: "string" }
-            }
-          }
-        }
-      },
-
-      409: {
-        type: "object",
-        required: ["ok", "code", "error"],
-        properties: {
-          ok: { type: "boolean", const: false },
-          code: { type: "number", const: 409 },
-          error: {
-            type: "object",
-            required: ["type", "message"],
-            properties: {
-              type: { type: "string", enum: ["RESOURCE_CONFLICT"] },
               message: { type: "string" }
             }
           }
@@ -59,6 +40,22 @@ export const registerSchema: RouteShorthandOptions = {
             required: ["type", "message"],
             properties: {
               type: { type: "string", enum: ["UNPROCESSABLE_INPUT"] },
+              message: { type: "string" }
+            }
+          }
+        }
+      },
+      429: {
+        type: "object",
+        required: ["ok", "code", "error"],
+        properties: {
+          ok: { type: "boolean", const: false },
+          code: { type: "number", const: 429 },
+          error: {
+            type: "object",
+            required: ["type", "message"],
+            properties: {
+              type: { type: "string", enum: ["RATE_LIMITED"] },
               message: { type: "string" }
             }
           }
