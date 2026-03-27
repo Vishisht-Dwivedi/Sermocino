@@ -6,15 +6,12 @@ import { RegisterServiceResponse } from "../types/register.types.js"
 import { pass_regex, email_regex } from "../shared/regex.js"
 export default async function registerUser(body: {
   email: string
-  username: string
   password: string
 }): Promise<RegisterServiceResponse> {
   try {
     if (
       !pass_regex.test(body.password) ||
-      !email_regex.test(body.email) ||
-      body.username.length < 3 ||
-      body.username.length > 100
+      !email_regex.test(body.email)
     ){
       return {
         ok: false,
@@ -31,7 +28,6 @@ export default async function registerUser(body: {
       data: {
         id: crypto.randomUUID(),
         email: body.email,
-        username: body.username,
         passHash,
         emailVerified: false
       }
@@ -40,7 +36,6 @@ export default async function registerUser(body: {
       ok: true,
       code: 201,
       data: {
-        username: user.username,
         email: user.email
       }
     }

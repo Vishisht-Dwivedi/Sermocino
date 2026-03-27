@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+// schema awareness required to build profile
+// user schema must not get access to user table's stuff
+
+model User {
+  id String @id @db.VarChar(36)
+  profile Profile?
+  @@map("users")
+}
+
+model Profile {
+  id          String   @id @db.VarChar(36)
+  user        User     @relation(fields: [id], references: [id], onDelete: Cascade)
+  username    String   @unique @db.VarChar(100)
+  displayName String?  @map("display_name")
+  avatarUrl   String?  @map("avatar_url")
+  bio         String?  @db.VarChar(300)
+  lastSeenAt  DateTime? @map("last_seen_at")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime? @updatedAt
+
+  @@map("profiles")
+}

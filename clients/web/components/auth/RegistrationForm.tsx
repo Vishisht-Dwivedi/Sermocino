@@ -14,7 +14,6 @@ import { toast } from "sonner"
 import { registerUser } from "@/lib/api/auth"
 
 export default function RegistrationForm() {
-  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -25,7 +24,6 @@ export default function RegistrationForm() {
       return;
     }
     const res = await registerUser({
-      username,
       email,
       password
     });
@@ -50,13 +48,6 @@ export default function RegistrationForm() {
       </CardHeader>
       <CardContent>
         <form onSubmit={submitHandler} className="space-y-4">
-          <Input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e)=>setUsername(e.target.value)}
-            className="w-full rounded-lg border border-emerald-900/40 bg-white/60 px-4 py-5 outline-none focus:ring-2 focus:ring-emerald-400"
-          />
           <Input
             type="email"
             placeholder="Email"

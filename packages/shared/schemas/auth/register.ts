@@ -5,12 +5,6 @@ export const RegisterSchema = z.object({
     .email("Invalid email format")
     .max(254),
 
-  username: z
-    .string()
-    .min(3)
-    .max(32)
-    .regex(/^[a-zA-Z0-9_]+$/, "Username may contain letters, numbers, underscores"),
-
   password: z
     .string()
     .min(8)

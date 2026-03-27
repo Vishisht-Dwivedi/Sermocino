@@ -7,10 +7,9 @@ export const registerSchema: RouteShorthandOptions = {
 
     body: {
       type: "object",
-      required: ["email", "username", "password"],
+      required: ["email", "password"],
       properties: {
         email: { type: "string", format: "email" },
-        username: { type: "string", minLength: 3, maxLength: 100 },
         password: { type: "string", minLength: 6 }
       }
     },
@@ -24,9 +23,8 @@ export const registerSchema: RouteShorthandOptions = {
           code: { type: "number", const: 201 },
           data: {
             type: "object",
-            required: ["username", "email"],
+            required: ["email"],
             properties: {
-              username: { type: "string" },
               email: { type: "string" }
             }
           }

@@ -9,13 +9,11 @@ export interface RegisterRequest extends RouteGenericInterface {
 export type RegisterUserObject = {
   id: string
   email: string
-  username: string
   passHash: string
   emailVerified: boolean
 }
 
 export interface RegisterResponseData {
-  username: string
   email: string
 }
 
