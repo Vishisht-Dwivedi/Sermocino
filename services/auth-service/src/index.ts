@@ -29,13 +29,13 @@ await app.register(fastifyCookie,{
   secret: process.env.COOKIE_SECRET
 });
 await app.register(authPlugin);
-await app.register(swaggerPlugin, { prefix: "/api/auth" });
+await app.register(swaggerPlugin);
 //routes
-await app.register(pingRoute, { prefix: "/api/auth" });
-await app.register(registerRoute, { prefix: "/api/auth" });
-await app.register(loginRoute, { prefix: "/api/auth" });
-await app.register(refreshRoute, { prefix: "/api/auth" });
-await app.register(logoutRoute, { prefix: "/api/auth" });
+await app.register(pingRoute);
+await app.register(registerRoute);
+await app.register(loginRoute);
+await app.register(refreshRoute);
+await app.register(logoutRoute);
 console.log(app.printRoutes());
 await app.listen({
   port: 3000,

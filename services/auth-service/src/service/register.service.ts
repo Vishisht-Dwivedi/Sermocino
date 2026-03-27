@@ -4,6 +4,8 @@ import crypto from "node:crypto"
 import { Prisma } from "@prisma/client"
 import { RegisterServiceResponse } from "../types/register.types.js"
 import { pass_regex, email_regex } from "../shared/regex.js"
+import redis from "../lib/redis.js"
+import emailEnqueue from "../notifications/sendEmail.notification.js"
 export default async function registerUser(body: {
   email: string
   password: string
@@ -23,11 +25,16 @@ export default async function registerUser(body: {
       }
     }
     const passHash = await bcrypt.hash(body.password, 12);
+    const otp = crypto.randomInt(999999);
+    const user_id = crypto.randomUUID();
+    const email = body.email
+
+    await emailEnqueue(email, otp);
 
     const user = await prisma.user.create({
       data: {
-        id: crypto.randomUUID(),
-        email: body.email,
+        id: user_id,
+        email,
         passHash,
         emailVerified: false
       }
