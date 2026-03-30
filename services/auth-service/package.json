@@ -11,7 +11,9 @@
     }
   },
   "scripts": {
-    "dev": "dotenv tsx watch src/index.ts",
+    "dev:api": "dotenv tsx watch src/index.ts",
+    "dev:email-worker": "pnpm exec dotenv tsx src/workers/email.worker.ts",
+    "dev": "concurrently -n API,EMAIL_WORKER -c blue,green \"pnpm dev:api\" \"pnpm dev:email-worker\"",
     "build": "tsc",
     "start": "node dist/index.js",
     "typecheck": "tsc --noEmit"
@@ -28,8 +30,10 @@
     "@fastify/cors": "^11.2.0",
     "@fastify/swagger": "^9.7.0",
     "@fastify/swagger-ui": "^5.2.5",
+    "@grpc/grpc-js": "^1.14.3",
     "@prisma/adapter-pg": "^7.4.0",
     "@prisma/client": "^7.4.0",
+    "@sermocino/grpc-contracts": "workspace:*",
     "@sermocino/shared": "workspace:*",
     "bcrypt": "^6.0.0",
     "bullmq": "^5.71.1",
@@ -48,6 +52,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.2.3",
     "@types/nodemailer": "^7.0.11",
+    "concurrently": "^9.2.1",
     "dotenv-cli": "^11.0.0",
     "prisma": "^7.4.0",
     "tsx": "^4.21.0",
