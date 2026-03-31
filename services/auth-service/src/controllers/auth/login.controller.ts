@@ -3,7 +3,6 @@ import { LoginRequest } from "../../types/login.types.js"
 import loginUser from "../../service/login.service.js"
 import { LoginSchema } from "@sermocino/shared";
 import { UAParser } from 'ua-parser-js';
-import crypto from "node:crypto";
 
 export default async function loginController(
   request: FastifyRequest<LoginRequest>,

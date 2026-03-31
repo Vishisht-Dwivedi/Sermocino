@@ -24,6 +24,6 @@ await app.register(fastifyCookie,{
 await app.register(pingRoute);
 
 await app.listen({
-  port: 3003,
+  port: Number(process.env.PORT) || 3003,
   host: "0.0.0.0"
 });

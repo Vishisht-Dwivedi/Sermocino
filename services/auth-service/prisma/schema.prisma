@@ -1,11 +1,12 @@
 generator client {
   provider = "prisma-client-js"
+  output = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+  schemas  = ["auth"]
 }
-
 /*
   USERS
 */
@@ -19,7 +20,7 @@ model User {
   emailVerified Boolean   @default(false) @map("email_verified")
 
   sessions      Session[]
-
+  @@schema("auth")
   @@map("users")
 }
 
@@ -41,7 +42,7 @@ model Session {
 
   user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   refreshTokens RefreshToken[]
-
+  @@schema("auth")
   @@map("sessions")
   @@index([userId])
   @@index([userId, revoked])
@@ -60,7 +61,7 @@ model RefreshToken {
   revoked   Boolean  @default(false)
 
   session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-
+  @@schema("auth")
   @@map("refresh_tokens")
   @@index([sessionId])
   @@index([expiresAt])

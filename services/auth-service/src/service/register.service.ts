@@ -1,7 +1,7 @@
 import prisma from "../lib/prisma.js"
 import bcrypt from "bcrypt"
 import crypto from "node:crypto"
-import { Prisma } from "@prisma/client"
+import { Prisma } from "../generated/prisma/index.js"
 import { RegisterServiceResponse } from "../types/register.types.js"
 import jwt from "jsonwebtoken"
 import {createUser} from "../grpc/user.client.js"
