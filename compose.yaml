@@ -79,10 +79,35 @@ services:
     restart: unless-stopped
     networks:
       - sermocino-network
-
+  media-service:
+    build:
+      context: .
+      dockerfile: services/media-service/Dockerfile
+    container_name: sermocino-media-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    environment:
+      PORT: 3004
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      JWT_SECRET_KEY: "${JWT_SECRET}"
+      COOKIE_SECRET: "${COOKIE_SECRET}"
+      NODE_ENV: "development"
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    ports:
+      - "3004:3004"
+    volumes:
+      - ./storage:/app/storage
+      - pnpm-store:/pnpm-store
+    restart: unless-stopped
+    networks:
+      - sermocino-network
 volumes:
   pgdata:
-  # pnpm-store:
+  pnpm-store:
 
 networks:
   sermocino-network:

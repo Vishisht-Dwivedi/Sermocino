@@ -1,0 +1,51 @@
+{
+  "name": "media-service",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Handles async media uploads to shared storage and enqueues it for the media-worker",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "keywords": [],
+  "author": "Vishisht Dwivedi",
+  "license": "ISC",
+  "packageManager": "pnpm@10.33.0",
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "@types/bcrypt": "^6.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^25.2.3",
+    "@types/nodemailer": "^7.0.11",
+    "concurrently": "^9.2.1",
+    "dotenv-cli": "^11.0.0",
+    "prisma": "^7.4.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@fastify/multipart": "^9.4.0",
+    "@fastify/cookie": "^11.0.2",
+    "@fastify/cors": "^11.2.0",
+    "@fastify/swagger": "^9.7.0",
+    "@fastify/swagger-ui": "^5.2.5",
+    "@grpc/grpc-js": "^1.14.3",
+    "@prisma/adapter-pg": "^7.4.0",
+    "@prisma/client": "^7.4.0",
+    "@sermocino/grpc-contracts": "workspace:*",
+    "@sermocino/shared": "workspace:*",
+    "bcrypt": "^6.0.0",
+    "bullmq": "^5.71.1",
+    "dotenv": "^17.3.1",
+    "fastify": "^5.7.4",
+    "fastify-plugin": "^5.1.0",
+    "ioredis": "^5.10.1",
+    "jsonwebtoken": "^9.0.3",
+    "nodemailer": "^8.0.4",
+    "pg": "^8.18.0",
+    "postgres": "^3.4.8",
+    "ua-parser-js": "^2.0.9"
+  }
+}

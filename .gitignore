@@ -6,3 +6,6 @@ dist/
 *.generated.*
 .next
 .DS_Store
+**/generated
+**/.gitignore
+storage/*

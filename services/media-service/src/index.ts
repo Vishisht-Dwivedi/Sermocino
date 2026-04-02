@@ -1,18 +1,15 @@
 import Fastify, { fastify } from "fastify";
 // plugins
-import swaggerPlugin from "./plugins/swagger.js";
+import swaggerPlugin from "./plugins/swagger.plugin.js";
 import authPlugin from "./plugins/auth.plugin.js";
 import cors from "@fastify/cors"
+import multipart from "@fastify/multipart";
+
 
 //routes
 import pingRoute from "./routes/ping.route.js";
-import registerRoute from "./routes/auth/register.route.js";
-import loginRoute from "./routes/auth/login.route.js";
 import fastifyCookie from "@fastify/cookie";
-import refreshRoute from "./routes/auth/refresh.route.js";
-import logoutRoute from "./routes/auth/logout.route.js";
-import sendOTPRoute from "./routes/otp/sendOTP.routes.js";
-import verifyOTPRoute from "./routes/otp/verifyOTP.routes.js";
+import imageRoute from "./routes/upload/image.route.js";
 
 const app = Fastify({
   logger: true,
@@ -30,19 +27,19 @@ await app.register(cors, {
 await app.register(fastifyCookie,{
   secret: process.env.COOKIE_SECRET
 });
-await app.register(authPlugin);
 await app.register(swaggerPlugin);
+await app.register(multipart, {
+  limits: {
+    fileSize: 5 * 1024 * 1024 // 5MB
+  }
+});
+await app.register(authPlugin);
 //routes
 await app.register(pingRoute);
-await app.register(registerRoute);
-await app.register(loginRoute);
-await app.register(refreshRoute);
-await app.register(logoutRoute);
-await app.register(sendOTPRoute);
-await app.register(verifyOTPRoute);
+await app.register(imageRoute);
 
 console.log(app.printRoutes());
 await app.listen({
-  port: Number(process.env.PORT)||3000,
+  port: Number(process.env.PORT)||3004,
   host: "0.0.0.0"
 });
