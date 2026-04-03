@@ -1,0 +1,30 @@
+{
+  "name": "media-worker",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Processes media queue items asynchronously and updates database",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "keywords": [
+    "media-processor"
+  ],
+  "author": "Vishisht Dwivedi",
+  "license": "ISC",
+  "packageManager": "pnpm@10.33.0",
+  "dependencies": {
+    "bullmq": "^5.71.1",
+    "ioredis": "^5.10.1",
+    "sharp": "^0.34.5",
+    "@sermocino/grpc-contracts": "workspace:*",
+    "@sermocino/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.2",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}

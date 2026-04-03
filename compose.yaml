@@ -92,9 +92,9 @@ services:
     environment:
       PORT: 3004
       DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
-      JWT_SECRET_KEY: "${JWT_SECRET}"
-      COOKIE_SECRET: "${COOKIE_SECRET}"
-      NODE_ENV: "development"
+      JWT_SECRET_KEY: ${JWT_SECRET}
+      COOKIE_SECRET: ${COOKIE_SECRET}
+      NODE_ENV: development
       REDIS_HOST: redis
       REDIS_PORT: 6379
     ports:
@@ -103,6 +103,22 @@ services:
       - ./storage:/app/storage
       - pnpm-store:/pnpm-store
     restart: unless-stopped
+    networks:
+      - sermocino-network
+  media-worker:
+    build:
+      context: .
+      dockerfile: services/media-worker/Dockerfile
+    container_name: sermocino-media-worker
+    depends_on:
+      - redis
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      NODE_ENV: development
+    volumes:
+      - ./storage:/app/storage
+      - pnpm-store:/pnpm-store
     networks:
       - sermocino-network
 volumes:
