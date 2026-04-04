@@ -12,10 +12,13 @@ import { Input } from "@/components/ui/input"
 import { useState } from "react";
 import { toast } from "sonner"
 import { loginUser } from "@/lib/api/auth";
+import { useAuthStore, useAuthStoreTypes } from "@/stores/auth.store";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const setAuthState = useAuthStore(state => state.setAuthState);
+  const clearAuthState = useAuthStore(state => state.clearAuthState);
   const submitHandler = async (e: React.SubmitEvent) => {
     e.preventDefault();
     const res = await loginUser({
@@ -23,10 +26,13 @@ export default function LoginForm() {
       password
     });
     if (res.ok) {
-      toast("Login Successful", {
-        description: JSON.stringify(res.data)
-      })
+      toast("Login Successful");
+      setAuthState({
+        email,
+        accessToken: res.data.accessToken
+      });
     } else {
+      clearAuthState();
       toast.error(res.error?.message);
     }
   }

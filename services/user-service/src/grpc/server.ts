@@ -39,6 +39,5 @@ server.bindAsync(
   grpc.ServerCredentials.createInsecure(),
   () => {
     console.log("User gRPC running");
-    server.start();
   }
 );
