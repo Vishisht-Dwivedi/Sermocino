@@ -21,7 +21,8 @@ const app = Fastify({
 });
 //plugins
 await app.register(cors, {
-   origin: [
+  origin: [
+    "http://192.168.29.50",
     "http://localhost:3000",
     "http://localhost"
   ],
@@ -44,5 +45,5 @@ await app.register(verifyOTPRoute);
 console.log(app.printRoutes());
 await app.listen({
   port: Number(process.env.PORT)||3000,
-  host: "0.0.0.0"
+  host: process.env.HOST || "0.0.0.0"
 });

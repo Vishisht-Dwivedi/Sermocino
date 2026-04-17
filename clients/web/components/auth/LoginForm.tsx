@@ -42,7 +42,7 @@ export default function LoginForm() {
         <CardTitle className="text-2xl font-semibold text-emerald-900">
           Welcome Back
         </CardTitle>
-        <CardDescription className="mb-6 text-sm text-emerald-900/75">
+        <CardDescription className="mb-4 text-sm text-emerald-900/75">
           Access your Sermocino account
         </CardDescription>
       </CardHeader>

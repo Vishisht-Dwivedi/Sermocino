@@ -6,13 +6,14 @@ import {
 import prisma from "../lib/prisma.js";
 
 const impl: UserServiceServer = {
-  async createUser(call, callback) {
-    const { authId, email } = call.request;
+  async createProfile(call, callback) {
+    const { userId, email } = call.request;
     let user;
+    console.log("Incoming request:", call.request);
     try {
       const res = await prisma.profile.create({
         data: {
-          id: authId,
+          id: userId,
           isOnboarded: false
         }
       });

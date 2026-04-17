@@ -1,24 +1,25 @@
 generator client {
   provider = "prisma-client-js"
-  output = "../src/generated/prisma"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
-  schemas  = ["user", "auth"]
+  schemas  = ["user"]
 }
 
 model Profile {
-  id          String   @id @db.VarChar(36)
-  username    String?   @unique @db.VarChar(50)
-  displayName String?  @map("display_name")
-  avatarUrl   String?  @map("avatar_url")
-  bio         String?  @db.VarChar(300)
-  lastSeenAt  DateTime? @map("last_seen_at")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  isOnboarded Boolean @default(false)
-  @@index([lastSeenAt])
+  id           String    @id @db.VarChar(36)
+  username     String?   @unique @db.VarChar(50)
+  displayName  String?   @map("display_name")
+  avatarUrl    String?   @map("avatar_url")
+  bio          String?   @db.VarChar(300)
+  lastSeenAt   DateTime? @map("last_seen_at") @db.Timestamptz(6)
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime  @updatedAt @map("updated_at") @db.Timestamptz(6)
+  isOnboarded  Boolean   @default(false) @map("is_onboarded")
+
   @@schema("user")
   @@map("profiles")
+  @@index([lastSeenAt])
 }

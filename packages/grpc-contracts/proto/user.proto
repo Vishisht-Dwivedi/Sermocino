@@ -3,14 +3,14 @@ syntax = "proto3";
 package user;
 
 service UserService {
-  rpc CreateUser (CreateUserRequest) returns (CreateUserResponse);
+  rpc CreateProfile (CreateProfileRequest) returns (CreateProfileResponse);
 }
 
-message CreateUserRequest {
-  string authId = 1;
+message CreateProfileRequest {
+  string user_id = 1; // auth-service user id
   string email = 2;
 }
 
-message CreateUserResponse {
+message CreateProfileResponse {
   bool success = 1;
 }

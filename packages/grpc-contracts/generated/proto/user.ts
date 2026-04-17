@@ -21,23 +21,24 @@ import {
 
 export const protobufPackage = "user";
 
-export interface CreateUserRequest {
-  authId: string;
+export interface CreateProfileRequest {
+  /** auth-service user id */
+  userId: string;
   email: string;
 }
 
-export interface CreateUserResponse {
+export interface CreateProfileResponse {
   success: boolean;
 }
 
-function createBaseCreateUserRequest(): CreateUserRequest {
-  return { authId: "", email: "" };
+function createBaseCreateProfileRequest(): CreateProfileRequest {
+  return { userId: "", email: "" };
 }
 
-export const CreateUserRequest: MessageFns<CreateUserRequest> = {
-  encode(message: CreateUserRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.authId !== "") {
-      writer.uint32(10).string(message.authId);
+export const CreateProfileRequest: MessageFns<CreateProfileRequest> = {
+  encode(message: CreateProfileRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.userId !== "") {
+      writer.uint32(10).string(message.userId);
     }
     if (message.email !== "") {
       writer.uint32(18).string(message.email);
@@ -45,10 +46,10 @@ export const CreateUserRequest: MessageFns<CreateUserRequest> = {
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): CreateUserRequest {
+  decode(input: BinaryReader | Uint8Array, length?: number): CreateProfileRequest {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseCreateUserRequest();
+    const message = createBaseCreateProfileRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -57,7 +58,7 @@ export const CreateUserRequest: MessageFns<CreateUserRequest> = {
             break;
           }
 
-          message.authId = reader.string();
+          message.userId = reader.string();
           continue;
         }
         case 2: {
@@ -77,17 +78,21 @@ export const CreateUserRequest: MessageFns<CreateUserRequest> = {
     return message;
   },
 
-  fromJSON(object: any): CreateUserRequest {
+  fromJSON(object: any): CreateProfileRequest {
     return {
-      authId: isSet(object.authId) ? globalThis.String(object.authId) : "",
+      userId: isSet(object.userId)
+        ? globalThis.String(object.userId)
+        : isSet(object.user_id)
+        ? globalThis.String(object.user_id)
+        : "",
       email: isSet(object.email) ? globalThis.String(object.email) : "",
     };
   },
 
-  toJSON(message: CreateUserRequest): unknown {
+  toJSON(message: CreateProfileRequest): unknown {
     const obj: any = {};
-    if (message.authId !== "") {
-      obj.authId = message.authId;
+    if (message.userId !== "") {
+      obj.userId = message.userId;
     }
     if (message.email !== "") {
       obj.email = message.email;
@@ -95,33 +100,33 @@ export const CreateUserRequest: MessageFns<CreateUserRequest> = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<CreateUserRequest>, I>>(base?: I): CreateUserRequest {
-    return CreateUserRequest.fromPartial(base ?? ({} as any));
+  create<I extends Exact<DeepPartial<CreateProfileRequest>, I>>(base?: I): CreateProfileRequest {
+    return CreateProfileRequest.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<CreateUserRequest>, I>>(object: I): CreateUserRequest {
-    const message = createBaseCreateUserRequest();
-    message.authId = object.authId ?? "";
+  fromPartial<I extends Exact<DeepPartial<CreateProfileRequest>, I>>(object: I): CreateProfileRequest {
+    const message = createBaseCreateProfileRequest();
+    message.userId = object.userId ?? "";
     message.email = object.email ?? "";
     return message;
   },
 };
 
-function createBaseCreateUserResponse(): CreateUserResponse {
+function createBaseCreateProfileResponse(): CreateProfileResponse {
   return { success: false };
 }
 
-export const CreateUserResponse: MessageFns<CreateUserResponse> = {
-  encode(message: CreateUserResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+export const CreateProfileResponse: MessageFns<CreateProfileResponse> = {
+  encode(message: CreateProfileResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.success !== false) {
       writer.uint32(8).bool(message.success);
     }
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): CreateUserResponse {
+  decode(input: BinaryReader | Uint8Array, length?: number): CreateProfileResponse {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseCreateUserResponse();
+    const message = createBaseCreateProfileResponse();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -142,11 +147,11 @@ export const CreateUserResponse: MessageFns<CreateUserResponse> = {
     return message;
   },
 
-  fromJSON(object: any): CreateUserResponse {
+  fromJSON(object: any): CreateProfileResponse {
     return { success: isSet(object.success) ? globalThis.Boolean(object.success) : false };
   },
 
-  toJSON(message: CreateUserResponse): unknown {
+  toJSON(message: CreateProfileResponse): unknown {
     const obj: any = {};
     if (message.success !== false) {
       obj.success = message.success;
@@ -154,11 +159,11 @@ export const CreateUserResponse: MessageFns<CreateUserResponse> = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<CreateUserResponse>, I>>(base?: I): CreateUserResponse {
-    return CreateUserResponse.fromPartial(base ?? ({} as any));
+  create<I extends Exact<DeepPartial<CreateProfileResponse>, I>>(base?: I): CreateProfileResponse {
+    return CreateProfileResponse.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<CreateUserResponse>, I>>(object: I): CreateUserResponse {
-    const message = createBaseCreateUserResponse();
+  fromPartial<I extends Exact<DeepPartial<CreateProfileResponse>, I>>(object: I): CreateProfileResponse {
+    const message = createBaseCreateProfileResponse();
     message.success = object.success ?? false;
     return message;
   },
@@ -166,36 +171,37 @@ export const CreateUserResponse: MessageFns<CreateUserResponse> = {
 
 export type UserServiceService = typeof UserServiceService;
 export const UserServiceService = {
-  createUser: {
-    path: "/user.UserService/CreateUser" as const,
+  createProfile: {
+    path: "/user.UserService/CreateProfile" as const,
     requestStream: false as const,
     responseStream: false as const,
-    requestSerialize: (value: CreateUserRequest): Buffer => Buffer.from(CreateUserRequest.encode(value).finish()),
-    requestDeserialize: (value: Buffer): CreateUserRequest => CreateUserRequest.decode(value),
-    responseSerialize: (value: CreateUserResponse): Buffer => Buffer.from(CreateUserResponse.encode(value).finish()),
-    responseDeserialize: (value: Buffer): CreateUserResponse => CreateUserResponse.decode(value),
+    requestSerialize: (value: CreateProfileRequest): Buffer => Buffer.from(CreateProfileRequest.encode(value).finish()),
+    requestDeserialize: (value: Buffer): CreateProfileRequest => CreateProfileRequest.decode(value),
+    responseSerialize: (value: CreateProfileResponse): Buffer =>
+      Buffer.from(CreateProfileResponse.encode(value).finish()),
+    responseDeserialize: (value: Buffer): CreateProfileResponse => CreateProfileResponse.decode(value),
   },
 } as const;
 
 export interface UserServiceServer extends UntypedServiceImplementation {
-  createUser: handleUnaryCall<CreateUserRequest, CreateUserResponse>;
+  createProfile: handleUnaryCall<CreateProfileRequest, CreateProfileResponse>;
 }
 
 export interface UserServiceClient extends Client {
-  createUser(
-    request: CreateUserRequest,
-    callback: (error: ServiceError | null, response: CreateUserResponse) => void,
+  createProfile(
+    request: CreateProfileRequest,
+    callback: (error: ServiceError | null, response: CreateProfileResponse) => void,
   ): ClientUnaryCall;
-  createUser(
-    request: CreateUserRequest,
+  createProfile(
+    request: CreateProfileRequest,
     metadata: Metadata,
-    callback: (error: ServiceError | null, response: CreateUserResponse) => void,
+    callback: (error: ServiceError | null, response: CreateProfileResponse) => void,
   ): ClientUnaryCall;
-  createUser(
-    request: CreateUserRequest,
+  createProfile(
+    request: CreateProfileRequest,
     metadata: Metadata,
     options: Partial<CallOptions>,
-    callback: (error: ServiceError | null, response: CreateUserResponse) => void,
+    callback: (error: ServiceError | null, response: CreateProfileResponse) => void,
   ): ClientUnaryCall;
 }
 

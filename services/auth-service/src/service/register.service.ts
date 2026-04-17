@@ -4,7 +4,7 @@ import crypto from "node:crypto"
 import { Prisma } from "../generated/prisma/index.js"
 import { RegisterServiceResponse } from "../types/register.types.js"
 import jwt from "jsonwebtoken"
-import {createUser} from "../grpc/user.client.js"
+import { createProfile } from "../grpc/user.client.js"
 
 export default async function registerUser(body: {
   email: string
@@ -55,8 +55,9 @@ export default async function registerUser(body: {
         emailVerified: true
       }
     });
-    const res = await createUser({
-      authId: user.id,
+    //grpc call
+    const res = await createProfile({
+      userId: user.id,
       email: user.email
     });
     if (!res.success) {
