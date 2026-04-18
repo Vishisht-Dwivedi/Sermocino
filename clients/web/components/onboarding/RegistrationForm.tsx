@@ -31,8 +31,7 @@ export default function RegistrationForm() {
     }
     try {
       setLoading(true);
-
-      // TODO: call your API here
+      //todo: call api
       await new Promise((res) => setTimeout(res, 800)); // mock delay
 
       toast.success("Registration completed!");

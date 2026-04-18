@@ -1,5 +1,6 @@
 import { FastifyRequest } from "fastify/types/request.js"
 import * as jwt from "jsonwebtoken";
+import { UUID } from "node:crypto";
 import { IResult } from "ua-parser-js";
 
 export type ServiceResponse<T = unknown> = {
@@ -12,13 +13,15 @@ export type ServiceResponse<T = unknown> = {
   data?: T
 }
 export interface JWTPayload extends jwt.JwtPayload {
-  sub: string
+  sub: UUID
   sid: string
 }
 
 declare module 'fastify' {
   interface FastifyRequest {
-    user?: JWTPayload
+    user?: {
+      sub: UUID
+    },
     signedCookies: Record<string, string | undefined>;
   }
   interface FastifyInstance {

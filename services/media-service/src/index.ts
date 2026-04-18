@@ -20,7 +20,9 @@ const app = Fastify({
 await app.register(cors, {
    origin: [
     "http://localhost:3000",
-    "http://localhost"
+    "http://localhost",
+    "http://192.168.29.50",
+    "http://192.168.29.60"
   ],
   credentials: true
 })
